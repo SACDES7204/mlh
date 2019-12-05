@@ -1,0 +1,17 @@
+f = open('prg1.csv','r')
+length = len(f.readline().split(','))
+hypo = ['0']*(length-1)
+print('Intital Hypo = ',hypo)
+f.close()
+f = open('prg1.csv','r')
+count =1
+for line in f:
+    lst = line.split(',')
+    for i in range(length-1):
+        if(lst[-1] == 'yes\n'):
+            if(hypo[i]!='0' and lst[i]!=hypo[i]):
+                hypo[i]='?'
+            else:
+                hypo[i] = lst[i]
+    print('Hypo ',hypo)
+print('final hypo ',hypo)
