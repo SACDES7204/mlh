@@ -1,0 +1,39 @@
+f = open('prg1.csv','r')
+length = len(f.readline().split(',')) -1
+f.close()
+f = open('prg1.csv','r')
+shypo = ['0']*(length)
+ghypo =['?']*(length)
+print('Intital Specific hypothesis',shypo)
+count = 1
+print('Intital General hypothesis',ghypo)
+ghypo.clear()
+for line in f:
+    lst = line.split(',')
+    for i in range(length):
+        if(lst[-1] == 'yes\n'):
+            if shypo[i]!='0' and shypo[i]!=lst[i]:
+                shypo[i] ='?'
+            else:
+                shypo[i] = lst[i]
+        elif (lst[-1] == 'no\n'):
+            if '0' in shypo:
+                temp_lst = ['?']*i
+                temp_lst += [lst[i]]
+                temp_lst += ['?'] * (length-1-i)
+                ghypo.append(temp_lst)
+            elif shypo[i]!='?' and shypo[i]!=lst[i]:
+                temp_lst = ['?']*i
+                temp_lst = temp_lst + [shypo[i]]
+                temp_lst = temp_lst + ['?'] * (length-1-i)
+                if(temp_lst not in ghypo):
+                    ghypo.append(temp_lst)
+    print('SHYPO ',count ," ",shypo)
+    print('GHYPO ',count ," ",ghypo)
+    count+=1
+f_ghypo = list()
+for i in range(len(ghypo)):
+    for j in range(len(ghypo[i])):
+        if(ghypo[i][j]!='?' and ghypo[i][j]==shypo[j]):
+            f_ghypo.append(ghypo[i])
+print(f_ghypo)
